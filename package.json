@@ -1,0 +1,12 @@
+{
+  "name": "cjs.js",
+  "private": true,
+  "version": "0.1.0",
+  "description": "CJS.JS is a CommonJS implemention for lxl",
+  "main": "cjs.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "callstackexceed",
+  "license": "MIT"
+}
