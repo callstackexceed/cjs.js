@@ -286,21 +286,46 @@ SOFTWARE.
         let moduleObject = createModule(path, parrentModule);
         currentModule = moduleObject;
         cjsRequire.cache[path] = moduleObject;
-        let code = new Function(
-            'exports',
-            'require',
-            'module',
-            '__filename',
-            '__dirname',
-            content
-        ); 
-        code.apply(moduleObject, [
-            moduleObject.exports,
-            cjsRequire,
-            moduleObject,
-            path,
-            utilPath.dirname(path)
-        ]);
+        let code;
+        try{
+            code = new Function(
+                'exports',
+                'require',
+                'module',
+                '__filename',
+                '__dirname',
+                content
+            );
+        }catch(e){
+            e.stack = e.stack.replace(
+                'at new Function (<anonymous>)',
+                `at Object.<anonymous> (${moduleObject.id})`
+            );
+            throw e;
+        }
+        Object.defineProperty(code, 'name', {value: `@file"${moduleObject.id}"`});
+        try{
+            code.apply(moduleObject, [
+                moduleObject.exports,
+                cjsRequire,
+                moduleObject,
+                path,
+                utilPath.dirname(path)
+            ]);
+        }catch(e) {
+            e.stack = e.stack.replace(
+                /at Object\.@file"([^"]*)" \(eval at cjsRequire \(:\d+:\d+\), <anonymous>:(\d+):(\d+)\)/g,
+                (match, fileName, line, col) => {
+                    return `at Object.<anonymous> (${fileName}:${line - 2}:${col})`;
+                }
+            ).replace(
+                /at (\w*) \(eval at cjsRequire \(:\d+:\d+\), <anonymous>:(\d+):(\d+)\)/g,
+                (match, functionName, line, col) => {
+                    return `at ${functionName} (${line - 2}:${col})`;
+                }
+            ).replace(/    at cjsRequire \(<anonymous>:\d+:\d+\)\n/g, '');
+            throw e;
+        }
         currentModule.loaded = true;
         currentModule = parrentModule;
         return moduleObject.exports;
