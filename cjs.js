@@ -330,7 +330,7 @@ SOFTWARE.
 */
 
 try {
-    let cjsPath = 'plugins/cjs/';
+    let cjsPath = 'plugins/cjs';
     let startFiles = undefined;
     if(!file.checkIsDir(cjsPath)) {
         throw new Error('cannot find directory "cjs", cjs.js cannot work');
