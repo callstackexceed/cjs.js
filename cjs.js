@@ -20,6 +20,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 (function(){
+    if(globalThis.require) {
+        log('require already exist');
+    }
     log('CJS started');
 
     let coreModules = new Map([]);
