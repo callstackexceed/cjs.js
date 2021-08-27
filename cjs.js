@@ -377,7 +377,7 @@ try {
     }
     if(startFiles === undefined) {
         startFiles = file.getFilesList(cjsPath);
-        startFiles.fliter((f)=> f.endsWith('.js') || f.endsWith('.cjs'))
+        startFiles.filter((f)=> f.endsWith('.js') || f.endsWith('.cjs'))
         .sort()
         .map((f)=>{
             return `/${cjsPath}/${f}`;
