@@ -85,9 +85,17 @@ SOFTWARE.
             return coreModules.get(id);
         }
         if(id.startsWith('/')) {
-            currentPath = '';
+            result = loadAsFile(id);
+            if(result != undefined) {
+                return result;
+            }
+            result = loadAsDirectory(id);
+            if(result != undefined) {
+                return result;
+            }
+            throw new Error(`${id} not found`);
         }
-        if(id.startsWith('./') || id.startsWith('/') || id.startsWith('../')) {
+        if(id.startsWith('./') || id.startsWith('../')) {
             result = loadAsFile(utilPath.join(currentPath, id));
             if(result != undefined) {
                 return result;
@@ -377,7 +385,7 @@ try {
     }
     if(startFiles === undefined) {
         startFiles = file.getFilesList(cjsPath);
-        startFiles.filter((f)=> f.endsWith('.js') || f.endsWith('.cjs'))
+        startFiles = startFiles.filter((f)=> f.endsWith('.js') || f.endsWith('.cjs'))
         .sort()
         .map((f)=>{
             return `/${cjsPath}/${f}`;
