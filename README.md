@@ -74,6 +74,8 @@ require('./lib/some-libs.js');
 ```
 It will work correctly.
 
+You can also use [pure-require.js](https://github.com/callstackexceed/cjs.js/raw/main/pure-require.js), who has only the first part of `cjs.js`.
+
 The difference between two way is the latter way will load one file more than once when different plugin all load it. The reason is different plugins run in different JavaScript environment.
 
 Run different plugins in different JavaScript environment make plugins safer, but it's not totally correct in CJS.

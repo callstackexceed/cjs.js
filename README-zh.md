@@ -74,6 +74,8 @@ require('./lib/some-libs.js');
 ```
 它将正常工作。
 
+你也可以使用[pure-require.js](https://github.com/callstackexceed/cjs.js/raw/main/pure-require.js)，它只有`cjs.js`的第一部分。
+
 两种方式的区别是对后者，当不同的插件都加载一个文件，它会被多次加载。原因是不同的插件在不同的JavaScript环境中运行。
 
 在不同的JavaScript环境中运行不同的插件会使插件更安全，但在CJS中并不完全正确。
