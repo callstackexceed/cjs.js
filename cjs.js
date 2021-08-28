@@ -253,11 +253,28 @@ SOFTWARE.
         }
 
         function loadPackageImports(id) {
+            //TODO
+            let package = file.readFrom(utilPath.join(id, 'package.json'));
+            if(package == undefined) {
+                return undefined;
+            }
+            package = JSON.parse(package);
+            if(package && package.imports) {
+                throw new Error(`cannot resolve imports field of ${id}`);
+            }
             return undefined;
         }
 
         function loadPackagExports(id) {
             //TODO
+            let package = file.readFrom(utilPath.join(id, 'package.json'));
+            if(package == undefined) {
+                return undefined;
+            }
+            package = JSON.parse(package);
+            if(package && package.exports) {
+                throw new Error(`cannot resolve exports field of ${id}`);
+            }
             return undefined;
         }
 
